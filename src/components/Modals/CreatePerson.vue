@@ -3,6 +3,7 @@
     max-width="800"
     :model-value="true"
     :persistent="true"
+    @click:outside="closeModal"
   >
     <v-card>
       <v-card-title>
@@ -54,7 +55,7 @@
               <v-select
                 v-model="gender"
                 label="Sexo"
-                :items="genders"
+                :items="['Masculino', 'Feminino', 'Outros']"
               />
             </v-col>
           </v-row>
@@ -98,7 +99,7 @@
               <v-select
                 v-model="situation"
                 label="Situação"
-                :items="situations"
+                :items="['Ativo', 'Inativo']"
               />
             </v-col>
 
@@ -106,7 +107,7 @@
               <v-select
                 v-model="role"
                 label="Cargo"
-                :items="roles"
+                :items="['Diretor', 'Produtor', 'Roterista', 'Ator']"
                 :multiple="true"
               />
             </v-col>
@@ -149,7 +150,7 @@
 
 export default {
   name: 'CreatePerson',
-  data() {
+    a() {
     return {
       artisticName: '',
       birthYear: '',
@@ -160,9 +161,6 @@ export default {
       situation: '',
       startYear: '',
       workYears: '',
-      genders: ['Masculino', 'Feminino', 'Outros'],
-      roles: ['Diretor', 'Produtor', 'Roterista', 'Ator'],
-      situations: ['Ativo', 'Inativo'],
     }
   },
   methods: {

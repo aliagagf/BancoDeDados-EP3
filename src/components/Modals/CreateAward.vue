@@ -3,7 +3,7 @@
 		max-width="800"
 		:model-value="true"
 		:persistent="true"
-		@click:outside="closeModal"
+        @click:outside="closeModal"
 	>
 		<v-card>
 			<v-card-title>
@@ -13,7 +13,7 @@
 							cols="11"
 						>
 							<h2>
-							Cadastrar Evento
+							Cadastrar Prêmio
 						</h2>
 						</v-col>
 
@@ -37,24 +37,6 @@
 					<v-row>
 						<v-col>
 							<v-text-field
-								v-model="eventName"
-								label="Nome"
-								:clearable="true"
-							/>
-						</v-col>
-
-						<v-col>
-							<v-text-field
-								v-model="nationality"
-								label="Nacionalidade"
-								:clearable="true"
-							/>
-						</v-col>
-					</v-row>
-
-					<v-row>
-						<v-col>
-							<v-text-field
 								v-model="type"
 								label="Tipo"
 								:clearable="true"
@@ -63,8 +45,26 @@
 
 						<v-col>
 							<v-text-field
-								v-model="startYear"
-								label="Ano Inicio do Evento"
+								v-model="editionYear"
+								label="Ano da Edição"
+								:clearable="true"
+							/>
+						</v-col>
+					</v-row>
+
+					<v-row>
+						<v-col>
+							<v-text-field
+								v-model="editionNameEvent"
+								label="Nome do evento da Edição"
+								:clearable="true"
+							/>
+						</v-col>
+
+						<v-col>
+							<v-text-field
+								v-model="name"
+								label="Nome"
 								:clearable="true"
 							/>
 						</v-col>
@@ -91,9 +91,9 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="handleCreatePerson"
+                @click="handleCreateAward"
               >
-                Cadastrar Evento
+                Cadastrar Prêmio
               </v-btn>
             </v-col>
           </v-row>
@@ -106,21 +106,21 @@
 <script>
 
 export default {
-	name: 'CreateEvent',
+	name: 'CreateAward',
 	data() {
 		return {
-			eventName: '',
 			type: '',
-			nationality: '',
-			startYear: '',
+			editionYear: '',
+			editionNameEvent: '',
+			name: '',
 		}
 	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')
 		},
-		handleCreateEvent() {
-			console.log('Criando Pessoa....')
+		handleCreateAward() {
+			console.log('Criando Prêmio....')
 		},
 	}
 }

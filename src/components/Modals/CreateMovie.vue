@@ -3,7 +3,7 @@
 		max-width="800"
 		:model-value="true"
 		:persistent="true"
-		@click:outside="closeModal"
+        @click:outside="closeModal"
 	>
 		<v-card>
 			<v-card-title>
@@ -13,7 +13,7 @@
 							cols="11"
 						>
 							<h2>
-							Cadastrar Evento
+							Cadastrar Filme
 						</h2>
 						</v-col>
 
@@ -37,16 +37,24 @@
 					<v-row>
 						<v-col>
 							<v-text-field
-								v-model="eventName"
-								label="Nome"
+								v-model="originalTitle"
+								label="Título Original"
 								:clearable="true"
 							/>
 						</v-col>
 
 						<v-col>
 							<v-text-field
-								v-model="nationality"
-								label="Nacionalidade"
+								v-model="productionYear"
+								label="Ano de Produção"
+								:clearable="true"
+							/>
+						</v-col>
+
+                        <v-col>
+							<v-text-field
+								v-model="launchDate"
+								label="Data de Estreia"
 								:clearable="true"
 							/>
 						</v-col>
@@ -55,17 +63,44 @@
 					<v-row>
 						<v-col>
 							<v-text-field
-								v-model="type"
-								label="Tipo"
+								v-model="brazilianTitle"
+								label="Título no Brasil"
 								:clearable="true"
 							/>
 						</v-col>
 
 						<v-col>
 							<v-text-field
-								v-model="startYear"
-								label="Ano Inicio do Evento"
+								v-model="genre"
+								label="Gênero"
 								:clearable="true"
+							/>
+						</v-col>
+
+                        <v-col>
+							<v-text-field
+								v-model="originalLanguage"
+								label="Idioma Original"
+								:clearable="true"
+							/>
+						</v-col>
+					</v-row>
+
+                    <v-row>
+						<v-col>
+							<v-text-field
+								v-model="firstYearFund"
+								label="Arrecadação no Primeiro Ano"
+								:clearable="true"
+							/>
+						</v-col>
+
+						<v-col>
+							<v-text-field
+								v-model="type"
+								label="Tipo"
+								:clearable="true"
+                                :items="types"
 							/>
 						</v-col>
 					</v-row>
@@ -91,9 +126,9 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="handleCreatePerson"
+                @click="handleCreateMovie"
               >
-                Cadastrar Evento
+                Cadastrar Filme
               </v-btn>
             </v-col>
           </v-row>
@@ -106,21 +141,26 @@
 <script>
 
 export default {
-	name: 'CreateEvent',
+	name: 'CreateMovie',
 	data() {
 		return {
-			eventName: '',
-			type: '',
-			nationality: '',
-			startYear: '',
+			originalTitle: '',
+			productionYear: '',
+			launchDate: '',
+			brazilianTitle: '',
+            genre: '',
+            originalLanguage: '',
+            firstYearFund:'',
+            type:'',
+            types:['Documentário', 'Outros'],
 		}
 	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')
 		},
-		handleCreateEvent() {
-			console.log('Criando Pessoa....')
+		handleCreateMovie() {
+			console.log('Criando Filme....')
 		},
 	}
 }

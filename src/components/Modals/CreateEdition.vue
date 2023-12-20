@@ -13,7 +13,7 @@
 							cols="11"
 						>
 							<h2>
-							Cadastrar Evento
+							Cadastrar Premiação
 						</h2>
 						</v-col>
 
@@ -37,16 +37,16 @@
 					<v-row>
 						<v-col>
 							<v-text-field
-								v-model="eventName"
-								label="Nome"
+								v-model="year"
+								label="Ano"
 								:clearable="true"
 							/>
 						</v-col>
 
 						<v-col>
 							<v-text-field
-								v-model="nationality"
-								label="Nacionalidade"
+								v-model="eventName"
+								label="Nome do Evento"
 								:clearable="true"
 							/>
 						</v-col>
@@ -55,16 +55,16 @@
 					<v-row>
 						<v-col>
 							<v-text-field
-								v-model="type"
-								label="Tipo"
+								v-model="place"
+								label="Local"
 								:clearable="true"
 							/>
 						</v-col>
 
 						<v-col>
 							<v-text-field
-								v-model="startYear"
-								label="Ano Inicio do Evento"
+								v-model="date"
+								label="Data"
 								:clearable="true"
 							/>
 						</v-col>
@@ -91,9 +91,9 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="handleCreatePerson"
+                @click="handleCreateEdition"
               >
-                Cadastrar Evento
+                Cadastrar Premiação
               </v-btn>
             </v-col>
           </v-row>

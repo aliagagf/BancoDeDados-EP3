@@ -46,6 +46,7 @@
           <v-col>
             <v-btn
               variant="outlined"
+              @click="openCreateAwardModal"
             >
               Inserir um novo Prêmio
             </v-btn>
@@ -58,6 +59,7 @@
           <v-col>
             <v-btn
               variant="outlined"
+              @click="openCreateGiveAwardModal"
             >
               Inserir uma nova Premiação
             </v-btn>
@@ -70,6 +72,7 @@
           <v-col>
             <v-btn
               variant="outlined"
+              @click="openCreateMovieModal"
             >
               Inserir um novo Filme
             </v-btn>
@@ -160,22 +163,45 @@
     v-if="shouldOpenCreateEventModal"
     @closeModal="closeCreateEventModal"
   />
+
+  <CreateAward
+    v-if="shouldOpenCreateAwardModal"
+    @closeModal="closeCreateAwardModal"
+  />
+
+  <CreateMovie
+    v-if="shouldOpenCreateMovieModal"
+    @closeModal="closeCreateMovieModal"
+  />
+  <CreateGiveAward
+    v-if="shouldOpenCreateGiveAwardModal"
+    @closeModal="closeCreateGiveAwardModal"
+  />
 </template>
 
 <script>
 import CreatePerson from '@/components/Modals/CreatePerson.vue'
 import CreateEvent from '@/components/Modals/CreateEvent.vue'
+import CreateAward from '@/components/Modals/CreateAward.vue'
+import CreateMovie from '@/components/Modals/CreateMovie.vue'
+import CreateGiveAward from '@/components/Modals/CreateGiveAward.vue'
 
 export default {
   name: 'AppHome',
   components: {
     CreatePerson,
     CreateEvent,
-  },
+    CreateAward,
+    CreateMovie,
+    CreateGiveAward,
+},
   data() {
     return {
       shouldOpenCreatePersonModal: false,
       shouldOpenCreateEventModal: false,
+      shouldOpenCreateAwardModal: false,
+      shouldOpenCreateMovieModal: false,
+      shouldOpenCreateGiveAwardModal: false,
     }
   },
   methods: {
@@ -190,6 +216,24 @@ export default {
     },
     closeCreateEventModal() {
       this.shouldOpenCreateEventModal = false
+    },
+    openCreateAwardModal() {
+      this.shouldOpenCreateAwardModal = true 
+    },
+    closeCreateAwardModal() {
+      this.shouldOpenCreateAwardModal = false 
+    },
+    openCreateMovieModal() {
+      this.shouldOpenCreateMovieModal = true 
+    },
+    closeCreateMovieModal() {
+      this.shouldOpenCreateMovieModal = false 
+    },
+    openCreateGiveAwardModal(){
+      this.shouldOpenCreateGiveAwardModal = true
+    },
+    closeCreateGiveAwardModal() {
+      this.shouldOpenCreateGiveAwardModal = false
     },
   },
 }
