@@ -1,0 +1,20 @@
+<template>
+  <v-container
+    fluid
+    class="background-color--dark-orange"
+  >
+    <v-row
+      justify="center"
+    >
+      <v-col
+        cols="auto"
+      >
+        <h1
+          class="text-white"
+        >
+          Portal Tuspeliculas Favoritas
+        </h1>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
