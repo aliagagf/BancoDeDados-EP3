@@ -133,7 +133,7 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="handleCreatePerson"
+                @click="getPerson"
               >
                 Cadastrar Pessoa
               </v-btn>
@@ -146,6 +146,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   name: 'CreatePerson',
@@ -172,6 +173,11 @@ export default {
     handleCreatePerson() {
       console.log('Criando Pessoa....')
     },
+    async getPerson() {
+      const response = await axios.get('/pessoa')
+
+      console.log(response)
+    }
   }
 }
 </script>
