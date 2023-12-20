@@ -16,38 +16,6 @@ pnpm install
 bun install
 ```
 
-### Compiles and hot-reloads for development
-
-```
-# yarn
-yarn dev
-
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# bun
-bun run dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# bun
-bun run build
-```
-
 ### Lints and fixes files
 
 ```
@@ -63,7 +31,3 @@ pnpm lint
 # bun
 bun run lint
 ```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
