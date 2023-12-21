@@ -144,6 +144,22 @@
       </v-card-text>
     </v-card>
   </v-dialog>
+
+  <v-snackbar
+    v-model="shouldShowSnackBar"
+  >
+    <p>Pessoa cadastrada com sucesso!</p>
+
+    <template v-slot:actions>
+      <v-btn
+        color="pink"
+        variant="text"
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>
 
 <script>
@@ -151,17 +167,18 @@ import axios from 'axios'
 
 export default {
   name: 'CreatePerson',
-    a() {
-    return {
-      artisticName: '',
-      birthYear: '',
-      gender: '',
-      realName: '',
-      role: [],
-      site: '',
-      situation: '',
-      startYear: '',
-      workYears: '',
+    data() {
+      return {
+        artisticName: '',
+        birthYear: '',
+        gender: '',
+        realName: '',
+        role: [],
+        shouldShowSnackBar: false,
+        site: '',
+        situation: '',
+        startYear: '',
+        workYears: '',
     }
   },
   methods: {
@@ -172,7 +189,19 @@ export default {
       console.log('Criando Pessoa....')
     },
     async getPerson() {
-      const response = await axios.get('/pessoa')
+      const response = await axios.post('/pessoa', {
+        artisticName: this.artisticName,
+        birthYear: this.birthYear,
+        gender: this.gender,
+        realName: this.realName,
+        roles: this.role,
+        site: this.site,
+        situation: this.situation,
+        startYear: this.startYear,
+        workYears: this.workYears,
+      })
+
+      if (response.status === 200) this.shouldShowSnackBar = true
 
       console.log(response)
     }

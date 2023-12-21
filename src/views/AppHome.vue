@@ -2,8 +2,13 @@
   <v-container
     class="mt-5"
   >
-    <v-row>
-      <v-col>
+    <v-row
+      justify="space-around"
+    >
+      <v-col
+        cols="auto"
+        class="configuration__container"
+      >
         <v-row
           class="px-5"
         >
@@ -15,72 +20,25 @@
         </v-row>
 
         <v-row
+          v-for="option in configurationOptions"
+          :key="option.title"
           class="px-5"
         >
           <v-col>
             <v-btn
               variant="outlined"
-              @click="openCreatePersonModal"
+              @click="handleConfigurationOpenModalCall(option.title)"
             >
-              Inserir uma nova Pessoa
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-              @click="openCreateEventModal"
-            >
-              Inserir um novo Evento
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-              @click="openCreateAwardModal"
-            >
-              Inserir um novo Prêmio
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-              @click="openCreateGiveAwardModal"
-            >
-              Inserir uma nova Premiação
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-              @click="openCreateMovieModal"
-            >
-              Inserir um novo Filme
+              {{ option.title }}
             </v-btn>
           </v-col>
         </v-row>
       </v-col>
 
-      <v-col>
+      <v-col
+        cols="auto"
+        class="report__container"
+      >
         <v-row
           class="px-5"
         >
@@ -92,61 +50,15 @@
         </v-row>
 
         <v-row
+          v-for="option in reportOptions"
+          :key="option.title"
           class="px-5"
         >
           <v-col>
             <v-btn
               variant="outlined"
             >
-              As 10 pessoas mais premiadas
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-            >
-              Os 10 filmes mais premiados
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-            >
-              Os 10 filmes com maior arrecadação
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-            >
-              Pessoas nomeadas melhores atores (atrizes) em todos eventos
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row
-          class="px-5"
-        >
-          <v-col>
-            <v-btn
-              variant="outlined"
-            >
-              Vencedores de prêmio
+              {{ option.title }}
             </v-btn>
           </v-col>
         </v-row>
@@ -202,9 +114,35 @@ export default {
       shouldOpenCreateAwardModal: false,
       shouldOpenCreateMovieModal: false,
       shouldOpenCreateGiveAwardModal: false,
+      configurationOptions: [
+        { title: 'Inserir uma Nova Pessoa' },
+        { title: 'Inserir um Novo Evento' },
+        { title: 'Inserir um Novo Prêmio' },
+        { title: 'Inserir uma Nova Premiação' },
+        { title: 'Inserir um Novo Filme' },
+      ],
+      reportOptions: [
+        { title: 'As 10 Pessoas Mais Premiadas' },
+        { title: 'Os 10 Filmes Mais Premiadas' },
+        { title: 'Os 10 Filmes com Maior Bilheteria' },
+        { title: 'Melhores Atores (Atrizes)' },
+        { title: 'Vencedores de Prêmios' },
+      ]
     }
   },
   methods: {
+    handleConfigurationOpenModalCall(title) {
+      if (title === 'Inserir uma Nova Pessoa') this.openCreatePersonModal()
+
+      if (title === 'Inserir um Novo Evento') this.openCreateEventModal()
+
+      if (title === 'Inserir um Novo Prêmio') this.openCreateAwardModal()
+
+      if (title === 'Inserir uma Nova Premiação') this.openCreateGiveAwardModal()
+      
+      if (title === 'Inserir um Novo Filme') this.openCreateMovieModal()
+
+    },
     openCreatePersonModal() {
       this.shouldOpenCreatePersonModal = true
     },
@@ -238,3 +176,10 @@ export default {
   },
 }
 </script>
+
+<style>
+  .configuration__container, .report__container {
+    border: 1px solid;
+    border-radius: 1rem
+  };
+</style>
