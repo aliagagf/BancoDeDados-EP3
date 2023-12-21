@@ -1,4 +1,7 @@
 import { registerPlugins } from '@/plugins'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:3030'
 
 import App from './App.vue'
 
