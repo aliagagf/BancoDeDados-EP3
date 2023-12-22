@@ -25,8 +25,6 @@ const convertStringToYear = (year) => {
 const createPerson = async (req, res) => {
   const roles = getRoles(req.body.roles)
 
-  await db.connect()
-
   const insertQuery = `
     INSERT INTO "pessoa"(
       nome_art,
@@ -44,7 +42,7 @@ const createPerson = async (req, res) => {
     )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
   `
-
+  console.log(roles)
   const insertValues = [
     req.body.artisticName,
     req.body.realName,
@@ -64,7 +62,6 @@ const createPerson = async (req, res) => {
     if (err) {
       console.log(err)
       res.sendStatus(500)
-      await db.end()
       return
     }
 
@@ -73,8 +70,6 @@ const createPerson = async (req, res) => {
   
     res.sendStatus(200)
   })
-
-  await db.end()
 }
 
 module.exports = createPerson

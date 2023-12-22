@@ -6,8 +6,8 @@ const client = new pg.Client({
   database: 'epApi',
   password: '1234',
   port: '5433',
-  idleTimeoutMillis: 0,
-  connectionTimeoutMillis: 0,
 })
+
+client.connect()
 
 module.exports = client

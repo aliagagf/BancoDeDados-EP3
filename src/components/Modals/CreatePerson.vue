@@ -107,7 +107,7 @@
               <v-select
                 v-model="role"
                 label="Cargo"
-                :items="['Diretor', 'Produtor', 'Roterista', 'Ator']"
+                :items="roles"
                 :multiple="true"
               />
             </v-col>
@@ -134,7 +134,7 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="getPerson"
+                @click="handleCreatePerson"
               >
                 Cadastrar Pessoa
               </v-btn>
@@ -147,8 +147,12 @@
 
   <v-snackbar
     v-model="shouldShowSnackBar"
+    color="#FAC95F"
+    elevation="24"
+    :timeout="2000"
+    location="center"
   >
-    <p>Pessoa cadastrada com sucesso!</p>
+    <p>{{ snackBarMessage }}</p>
 
     <template v-slot:actions>
       <v-btn
@@ -174,9 +178,11 @@ export default {
         gender: '',
         realName: '',
         role: [],
+        roles: ['Diretor', 'Produtor', 'Roteirista', 'Ator'],
         shouldShowSnackBar: false,
         site: '',
         situation: '',
+        snackBarMessage: '',
         startYear: '',
         workYears: '',
     }
@@ -185,10 +191,7 @@ export default {
     closeModal() {
       this.$emit('closeModal')
     },
-    handleCreatePerson() {
-      console.log('Criando Pessoa....')
-    },
-    async getPerson() {
+    async handleCreatePerson() {
       const response = await axios.post('/pessoa', {
         artisticName: this.artisticName,
         birthYear: this.birthYear,
@@ -201,10 +204,12 @@ export default {
         workYears: this.workYears,
       })
 
-      if (response.status === 200) this.shouldShowSnackBar = true
+      if (response.status === 200) {
+        this.snackBarMessage = 'Usuário cadastrado com sucesso'
+      }
 
-      console.log(response)
-    }
+      if (response.status === 500) 'Erro ao cadastrar usuário, verifique os campos!'
+    },
   }
 }
 </script>
