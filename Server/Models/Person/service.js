@@ -1,4 +1,5 @@
 const db = require('../../DataBase/db')
+const convertStringToYear = require('../../Utils/convertStringToYear')
 
 const getRoles = (roles) => roles.reduce(
   (acc, value) => {
@@ -15,14 +16,7 @@ const getRoles = (roles) => roles.reduce(
   {},
 )
 
-const convertStringToYear = (year) => {
-  const yearInt = parseInt(year)
-
-  const date = new Date(yearInt, 0, 1)
-  return date.toISOString().split('T')[0]
-}
-
-const createPerson = async (req, res) => {
+const createPerson = (req, res) => {
   const roles = getRoles(req.body.roles)
 
   const insertQuery = `
@@ -42,7 +36,7 @@ const createPerson = async (req, res) => {
     )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
   `
-  console.log(roles)
+
   const insertValues = [
     req.body.artisticName,
     req.body.realName,
@@ -58,7 +52,7 @@ const createPerson = async (req, res) => {
     roles.flagAtor ? 1 : 0
   ]
 
-  await db.query(insertQuery, insertValues, async (err, result) => {
+  db.query(insertQuery, insertValues, (err, result) => {
     if (err) {
       console.log(err)
       res.sendStatus(500)
@@ -66,10 +60,12 @@ const createPerson = async (req, res) => {
     }
 
     console.log(result)
-    console.log('Usuário Inserido com Sucesso')
+    console.log('Usuário Inserido com Sucesso!!!')
   
     res.sendStatus(200)
   })
 }
 
-module.exports = createPerson
+module.exports = {
+  createPerson,
+}

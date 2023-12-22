@@ -143,27 +143,28 @@
         </v-container>
       </v-card-text>
     </v-card>
+
+    <v-snackbar
+      v-model="shouldShowSnackBar"
+      color="#FAC95F"
+      elevation="24"
+      :timeout="2000"
+      location="center"
+    >
+      <p>{{ snackBarMessage }}</p>
+  
+      <template v-slot:actions>
+        <v-btn
+          color="pink"
+          variant="text"
+          @click="closeSnackbar"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-dialog>
 
-  <v-snackbar
-    v-model="shouldShowSnackBar"
-    color="#FAC95F"
-    elevation="24"
-    :timeout="2000"
-    location="center"
-  >
-    <p>{{ snackBarMessage }}</p>
-
-    <template v-slot:actions>
-      <v-btn
-        color="pink"
-        variant="text"
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </template>
-  </v-snackbar>
 </template>
 
 <script>
@@ -171,20 +172,23 @@ import axios from 'axios'
 
 export default {
   name: 'CreatePerson',
-    data() {
-      return {
-        artisticName: '',
-        birthYear: '',
-        gender: '',
-        realName: '',
-        role: [],
-        roles: ['Diretor', 'Produtor', 'Roteirista', 'Ator'],
-        shouldShowSnackBar: false,
-        site: '',
-        situation: '',
-        snackBarMessage: '',
-        startYear: '',
-        workYears: '',
+  emits: [
+    'closeModal',
+  ],
+  data() {
+    return {
+      artisticName: '',
+      birthYear: '',
+      gender: '',
+      realName: '',
+      role: [],
+      roles: ['Diretor', 'Produtor', 'Roteirista', 'Ator'],
+      shouldShowSnackBar: false,
+      site: '',
+      situation: '',
+      snackBarMessage: '',
+      startYear: '',
+      workYears: '',
     }
   },
   methods: {
@@ -206,9 +210,16 @@ export default {
 
       if (response.status === 200) {
         this.snackBarMessage = 'Usuário cadastrado com sucesso'
+        this.shouldShowSnackBar = true
       }
 
-      if (response.status === 500) 'Erro ao cadastrar usuário, verifique os campos!'
+      if (response.status === 500) {
+        this.shouldShowSnackBar = true
+        this.snackBarMessage = 'Erro ao cadastrar usuário, verifique os campos!'
+      }
+    },
+    closeSnackbar() {
+      this.shouldShowSnackBar = false
     },
   }
 }

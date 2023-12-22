@@ -91,7 +91,7 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="handleCreatePerson"
+                @click="handleCreateEvent"
               >
                 Cadastrar Evento
               </v-btn>
@@ -100,28 +100,74 @@
 				</v-container>
 			</v-card-text>
 		</v-card>
+
+		<v-snackbar
+			v-model="shouldShowSnackBar"
+			color="#FAC95F"
+			elevation="24"
+			:timeout="2000"
+			location="center"
+		>
+			<p>{{ snackBarMessage }}</p>
+	
+			<template v-slot:actions>
+				<v-btn
+					color="pink"
+					variant="text"
+					@click="closeSnackbar"
+				>
+					Close
+				</v-btn>
+			</template>
+		</v-snackbar>
 	</v-dialog>
+
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
 	name: 'CreateEvent',
+	emits: [
+    'closeModal',
+  ],
 	data() {
 		return {
 			eventName: '',
 			type: '',
 			nationality: '',
 			startYear: '',
+			snackBarMessage: '',
+			shouldShowSnackBar: false,
 		}
 	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')
 		},
-		handleCreateEvent() {
-			console.log('Criando Pessoa....')
+		async handleCreateEvent() {
+			const response = await axios.post('/evento', {
+				eventName: this.eventName,
+				type: this.type,
+				nationality: this.nationality,
+				startYear: this.startYear,
+			})
+
+			if (response.status === 200) {
+				this.snackBarMessage = 'Evento cadastrado com sucesso'
+				this.shouldShowSnackBar = true
+			}
+
+			if (response.status === 500) {
+				this.snackBarMessage = 'Erro ao cadastrar usuário, verifique os campos!'
+				this.shouldShowSnackBar = true
+			}
+		},
+		closeSnackbar() {
+			this.shouldShowSnackBar = false
 		},
 	}
 }
 </script>
+]

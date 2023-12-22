@@ -39,25 +39,7 @@
 							<v-text-field
 								v-model="type"
 								label="Tipo"
-								:clearable="true"
-							/>
-						</v-col>
-
-						<v-col>
-							<v-text-field
-								v-model="editionYear"
-								label="Ano da Edição"
-								:clearable="true"
-							/>
-						</v-col>
-					</v-row>
-
-					<v-row>
-						<v-col>
-							<v-text-field
-								v-model="editionNameEvent"
-								label="Nome do evento da Edição"
-								:clearable="true"
+								clearable
 							/>
 						</v-col>
 
@@ -65,7 +47,19 @@
 							<v-text-field
 								v-model="name"
 								label="Nome"
-								:clearable="true"
+								clearable
+							/>
+						</v-col>
+
+						<v-col>
+							<v-autocomplete
+								v-model="edition"
+								label="Edição"
+								clearable
+								item-title="nome_evento"
+								item-value="nome_evento"
+								return-object=""
+								:items="editions"
 							/>
 						</v-col>
 					</v-row>
@@ -100,27 +94,72 @@
 				</v-container>
 			</v-card-text>
 		</v-card>
+
+		<v-snackbar
+			v-model="shouldShowSnackBar"
+			color="#FAC95F"
+			elevation="24"
+			:timeout="2000"
+			location="center"
+		>
+			<p>{{ snackBarMessage }}</p>
+
+			<template v-slot:actions>
+				<v-btn
+					color="pink"
+					variant="text"
+					@click="closeSnackbar"
+				>
+					Close
+				</v-btn>
+			</template>
+		</v-snackbar>
 	</v-dialog>
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
 	name: 'CreateAward',
+	emits: [
+    'closeModal',
+  ],
 	data() {
 		return {
-			type: '',
-			editionYear: '',
-			editionNameEvent: '',
+			edition: null,
+			editions: [],
 			name: '',
+			shouldShowSnackbar: false,
+			snackbarMessage: '',
+			type: '',
 		}
+	},
+	async mounted() {
+		const response = await axios.get('/edicao')
+		this.editions = response.data
 	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')
 		},
-		handleCreateAward() {
-			console.log('Criando Prêmio....')
+		async handleCreateAward() {
+			const response = await axios.post('/premio', {
+				edition: this.edition,
+				name: this.name,
+				type: this.type,
+			})
+
+			if (response.status === 200) {
+				this.snackbarMessage = 'Edição cadastrar com sucesso!!!'
+				this.shouldShowSnackbar = true
+				return
+			}
+
+			if (response.status === 500) {
+				this.snackbarMessage = 'Erro ao cadsatrar Edição, verifique os campos'
+				this.shouldShowSnackbar = true
+			}
 		},
 	}
 }

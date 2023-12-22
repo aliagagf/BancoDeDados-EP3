@@ -3,7 +3,6 @@
 		max-width="800"
 		:model-value="true"
 		:persistent="true"
-		@click:outside="closeModal"
 	>
 		<v-card>
 			<v-card-title>
@@ -13,7 +12,7 @@
 							cols="11"
 						>
 							<h2>
-							Cadastrar Premiação
+							Cadastrar Edição
 						</h2>
 						</v-col>
 
@@ -44,9 +43,13 @@
 						</v-col>
 
 						<v-col>
-							<v-text-field
-								v-model="eventName"
-								label="Nome do Evento"
+							<v-autocomplete
+								v-model="event"
+								label="Evento"
+								return-object
+								item-title="nome"
+								item-value="nome"
+								:items="events"
 								:clearable="true"
 							/>
 						</v-col>
@@ -100,27 +103,75 @@
 				</v-container>
 			</v-card-text>
 		</v-card>
+
+		<v-snackbar
+			v-model="shouldShowSnackBar"
+			color="#FAC95F"
+			elevation="24"
+			:timeout="2000"
+			location="center"
+		>
+			<p>{{ snackBarMessage }}</p>
+	
+			<template v-slot:actions>
+				<v-btn
+					color="pink"
+					variant="text"
+					@click="closeSnackbar"
+				>
+					Close
+				</v-btn>
+			</template>
+		</v-snackbar>
 	</v-dialog>
+
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
 	name: 'CreateEvent',
+	emits: [
+		'closeModal',
+	],
 	data() {
 		return {
-			eventName: '',
-			type: '',
-			nationality: '',
-			startYear: '',
+			event: '',
+			events: [],
+			place: '',
+			shouldShowSnackbar: false,
+			snackbarMessage: '',
+			date: '',
+			year: '',
 		}
+	},
+	async mounted() {
+		const response = await axios.get('/evento')
+		this.events = response.data
 	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')
 		},
-		handleCreateEvent() {
-			console.log('Criando Pessoa....')
+		async handleCreateEdition() {
+			const response = axios.post('/edicao', {
+				event: this.event,
+				date: this.date,
+				place: this.place,
+				year: this.year,
+			})
+
+			if (response.status === 200) {
+				this.snackbarMessage = 'Edição cadastrar com sucesso!!!'
+				this.shouldShowSnackbar = true
+				return
+			}
+
+			if (response.status === 500) {
+				this.snackbarMessage = 'Erro ao cadsatrar Edição, verifique os campos'
+				this.shouldShowSnackbar = true
+			}
 		},
 	}
 }

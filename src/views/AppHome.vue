@@ -85,7 +85,7 @@
     v-if="shouldOpenCreateMovieModal"
     @closeModal="closeCreateMovieModal"
   />
-  <CreateGiveAward
+  <CreateEdition
     v-if="shouldOpenCreateGiveAwardModal"
     @closeModal="closeCreateGiveAwardModal"
   />
@@ -96,7 +96,7 @@ import CreatePerson from '@/components/Modals/CreatePerson.vue'
 import CreateEvent from '@/components/Modals/CreateEvent.vue'
 import CreateAward from '@/components/Modals/CreateAward.vue'
 import CreateMovie from '@/components/Modals/CreateMovie.vue'
-import CreateGiveAward from '@/components/Modals/CreateGiveAward.vue'
+import CreateEdition from '@/components/Modals/CreateEdition.vue'
 
 export default {
   name: 'AppHome',
@@ -105,7 +105,7 @@ export default {
     CreateEvent,
     CreateAward,
     CreateMovie,
-    CreateGiveAward,
+    CreateEdition,
 },
   data() {
     return {
@@ -118,7 +118,7 @@ export default {
         { title: 'Inserir uma Nova Pessoa' },
         { title: 'Inserir um Novo Evento' },
         { title: 'Inserir um Novo Prêmio' },
-        { title: 'Inserir uma Nova Premiação' },
+        { title: 'Inserir uma Nova Edição' },
         { title: 'Inserir um Novo Filme' },
       ],
       reportOptions: [
@@ -138,7 +138,7 @@ export default {
 
       if (title === 'Inserir um Novo Prêmio') this.openCreateAwardModal()
 
-      if (title === 'Inserir uma Nova Premiação') this.openCreateGiveAwardModal()
+      if (title === 'Inserir uma Nova Edição') this.openCreateGiveAwardModal()
       
       if (title === 'Inserir um Novo Filme') this.openCreateMovieModal()
 
