@@ -52,20 +52,113 @@ const createPerson = (req, res) => {
     roles.flagAtor ? 1 : 0
   ]
 
-  db.query(insertQuery, insertValues, (err, result) => {
+  db.query(insertQuery, insertValues, (err) => {
     if (err) {
       console.log(err)
       res.sendStatus(500)
       return
     }
 
-    console.log(result)
     console.log('Usuário Inserido com Sucesso!!!')
   
     res.sendStatus(200)
   })
 }
 
+const listActors = (req, res) => {
+  const listQuery = `
+    SELECT *
+    FROM "pessoa"
+    WHERE flag_ator = TRUE;
+  `
+
+  db.query(listQuery, [], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+  
+    res.status(200).json(result.rows)
+  })
+}
+
+const listDirectors = (req, res) => {
+  const listQuery = `
+    SELECT *
+    FROM "pessoa"
+    WHERE flag_diretor = TRUE;
+  `
+
+  db.query(listQuery, [], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+  
+    res.status(200).json(result.rows)
+  })
+}
+
+const listProducers = (req, res) => {
+  const listQuery = `
+    SELECT *
+    FROM "pessoa"
+    WHERE flag_produtor = TRUE;
+  `
+
+  db.query(listQuery, [], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+  
+    res.status(200).json(result.rows)
+  })
+}
+
+const listScreenwriters = (req, res) => {
+  const listQuery = `
+    SELECT *
+    FROM "pessoa"
+    WHERE flag_roteirista = TRUE;
+  `
+
+  db.query(listQuery, [], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+  
+    res.status(200).json(result.rows)
+  })
+}
+
+const listAllPerson = (req, res) => {
+  const listQuery = `
+    SELECT *
+    FROM "pessoa";
+  `
+
+  db.query(listQuery, [], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.sendStatus(500)
+      return
+    }
+
+    res.status(200).json(result.rows)
+  })
+}
+
 module.exports = {
   createPerson,
+  listActors,
+  listAllPerson,
+  listDirectors,
+  listProducers,
+  listScreenwriters,
 }

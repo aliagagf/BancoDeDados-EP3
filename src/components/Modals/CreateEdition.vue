@@ -1,8 +1,8 @@
 <template>
 	<v-dialog
-		max-width="800"
 		:model-value="true"
-		:persistent="true"
+		max-width="800"
+		persistent
 	>
 		<v-card>
 			<v-card-title>
@@ -38,7 +38,7 @@
 							<v-text-field
 								v-model="year"
 								label="Ano"
-								:clearable="true"
+								clearable
 							/>
 						</v-col>
 
@@ -49,8 +49,16 @@
 								return-object
 								item-title="nome"
 								item-value="nome"
+								clearable
 								:items="events"
-								:clearable="true"
+							/>
+						</v-col>
+
+						<v-col>
+							<v-text-field
+								v-model="place"
+								label="Local"
+								clearable
 							/>
 						</v-col>
 					</v-row>
@@ -58,17 +66,22 @@
 					<v-row>
 						<v-col>
 							<v-text-field
-								v-model="place"
-								label="Local"
+								v-model="date"
+								label="Data"
 								:clearable="true"
 							/>
 						</v-col>
 
 						<v-col>
-							<v-text-field
-								v-model="date"
-								label="Data"
-								:clearable="true"
+							<v-autocomplete
+								v-model="jury"
+								label="Juri"
+								item-title="nome_art"
+								item-value="nome_art"
+								clearable
+								return-object
+								multiple
+								:items="persons"
 							/>
 						</v-col>
 					</v-row>
@@ -137,18 +150,23 @@ export default {
 	],
 	data() {
 		return {
-			event: '',
+			date: '',
+			event: null,
 			events: [],
+			jury: [],
+			persons: [],
 			place: '',
 			shouldShowSnackbar: false,
 			snackbarMessage: '',
-			date: '',
 			year: '',
 		}
 	},
 	async mounted() {
-		const response = await axios.get('/evento')
-		this.events = response.data
+		const eventResponse = await axios.get('/evento')
+		this.events = eventResponse.data
+
+		const personReponse = await axios.get('/pessoa')
+		this.persons = personReponse.data
 	},
 	methods: {
 		closeModal() {
@@ -156,8 +174,9 @@ export default {
 		},
 		async handleCreateEdition() {
 			const response = axios.post('/edicao', {
-				event: this.event,
 				date: this.date,
+				event: this.event,
+				jury: this.jury,
 				place: this.place,
 				year: this.year,
 			})

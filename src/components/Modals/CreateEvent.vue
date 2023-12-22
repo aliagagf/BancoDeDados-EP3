@@ -1,9 +1,8 @@
 <template>
 	<v-dialog
-		max-width="800"
 		:model-value="true"
-		:persistent="true"
-		@click:outside="closeModal"
+		max-width="800"
+		persistent
 	>
 		<v-card>
 			<v-card-title>

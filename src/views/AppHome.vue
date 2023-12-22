@@ -115,11 +115,13 @@ export default {
       shouldOpenCreateMovieModal: false,
       shouldOpenCreateGiveAwardModal: false,
       configurationOptions: [
-        { title: 'Inserir uma Nova Pessoa' },
-        { title: 'Inserir um Novo Evento' },
-        { title: 'Inserir um Novo Prêmio' },
-        { title: 'Inserir uma Nova Edição' },
-        { title: 'Inserir um Novo Filme' },
+        { title: 'Inserir Nova Pessoa' },
+        { title: 'Inserir Novo Evento' },
+        { title: 'Inserir Novo Prêmio' },
+        { title: 'Inserir Nova Edição' },
+        { title: 'Inserir Novo Filme' },
+        { title: 'Inserir Premiação para Filme' },
+        { title: 'Inserir Premiação para Ator (Atriz)' },
       ],
       reportOptions: [
         { title: 'As 10 Pessoas Mais Premiadas' },
@@ -132,15 +134,19 @@ export default {
   },
   methods: {
     handleConfigurationOpenModalCall(title) {
-      if (title === 'Inserir uma Nova Pessoa') this.openCreatePersonModal()
+      if (title === 'Inserir Nova Pessoa') this.openCreatePersonModal()
 
-      if (title === 'Inserir um Novo Evento') this.openCreateEventModal()
+      if (title === 'Inserir Novo Evento') this.openCreateEventModal()
 
-      if (title === 'Inserir um Novo Prêmio') this.openCreateAwardModal()
+      if (title === 'Inserir Novo Prêmio') this.openCreateAwardModal()
 
-      if (title === 'Inserir uma Nova Edição') this.openCreateGiveAwardModal()
+      if (title === 'Inserir Nova Edição') this.openCreateGiveAwardModal()
       
-      if (title === 'Inserir um Novo Filme') this.openCreateMovieModal()
+      if (title === 'Inserir Novo Filme') this.openCreateMovieModal()
+
+      if (title === 'Inserir Premiação para Filme') this.openCreateMovieAward()
+
+      if (title === 'Inserir Premiação para Ator (Atriz)') this.openCreatePersonAward()
 
     },
     openCreatePersonModal() {
