@@ -137,8 +137,7 @@ const listScreenwriters = (req, res) => {
 const listAllPerson = (req, res) => {
   const listQuery = `
     SELECT *
-    FROM "pessoa"
-    WHERE sitauacao = 'Ativo';
+    FROM "pessoa";
   `
 
   db.query(listQuery, [], (err, result) => {

@@ -87,8 +87,8 @@
   />
 
   <CreateEdition
-    v-if="shouldOpenCreateGiveAwardModal"
-    @closeModal="closeCreateGiveAwardModal"
+    v-if="shouldOpenCreateEditionModal"
+    @closeModal="closeCreateEditionModal"
   />
 
   <CreateMovieAward
@@ -122,6 +122,7 @@ export default {
       shouldOpenCreateAwardModal: false,
       shouldOpenCreateMovieModal: false,
       shouldOpenCreateMovieAward: false,
+      shouldOpenCreateEditionModal: false,
       configurationOptions: [
         { title: 'Inserir Nova Pessoa' },
         { title: 'Inserir Novo Evento' },
@@ -148,7 +149,7 @@ export default {
 
       if (title === 'Inserir Novo Prêmio') this.openCreateAwardModal()
 
-      if (title === 'Inserir Nova Edição') this.openCreateGiveAwardModal()
+      if (title === 'Inserir Nova Edição') this.openCreateEditionModal()
       
       if (title === 'Inserir Novo Filme') this.openCreateMovieModal()
 
@@ -181,11 +182,11 @@ export default {
     closeCreateMovieModal() {
       this.shouldOpenCreateMovieModal = false 
     },
-    openCreateGiveAwardModal(){
-      this.shouldOpenCreateGiveAwardModal = true
+    openCreateEditionModal(){
+      this.shouldOpenCreateEditionModal = true
     },
-    closeCreateGiveAwardModal() {
-      this.shouldOpenCreateGiveAwardModal = false
+    closeCreateEditionModal() {
+      this.shouldOpenCreateEditionModal = false
     },
     openCreateMovieAward() {
       this.shouldOpenCreateMovieAward = true
