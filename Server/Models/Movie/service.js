@@ -2,7 +2,7 @@ const db = require('../../DataBase/db')
 const convertStringToYear = require('../../Utils/convertStringToYear')
 const convertStringToDate = require('../../Utils/convertStringToDate')
 
-const handleCreatePremiereLocation = (data) => {
+const handleCreatePremiereLocation = (res, data) => {
   const insertQuery = `
     INSERT INTO "local_estreia_filme"(
       local_estreia,
@@ -19,11 +19,15 @@ const handleCreatePremiereLocation = (data) => {
   ]
 
   db.query(insertQuery, insertValues, (err) => {
-    if (err) return
+    if (err) {
+      console.log(err)
+      res.status(500).json(err)
+      return
+    }
   })
 }
 
-const handleCreateIsDirector = (data) => {
+const handleCreateIsDirector = (res, data) => {
   const insertQuery = `
     INSERT INTO "eh_diretor"(
       filme_titulo_original,
@@ -43,24 +47,30 @@ const handleCreateIsDirector = (data) => {
     insertQuery,
     [...insertValues, data.mainDirector.nome_art, true],
     (err) => {
-      if (err) return
+      if (err) {
+        console.log(err)
+        res.status(500).json(err)
+        return
+      }
     }
   )
 
-  if (data.directors.length != 0) {
-    data.directors.forEach(director => {
-      db.query(
-        insertQuery,
-        [...insertValues, director.nome_art, false],
-        (err) => {
-          if (err) return
+  data.directors.forEach(director => {
+    db.query(
+      insertQuery,
+      [...insertValues, director.nome_art, false],
+      (err) => {
+        if (err) {
+          console.log(err)
+          res.status(500).json(err)
+          return
         }
-      )
-    })
-  }
+      }
+    )
+  })
 }
 
-const handleCreateIsProducer = (data) => {
+const handleCreateIsProducer = (res, data) => {
   const insertQuery = `
     INSERT INTO "eh_produtor"(
       filme_titulo_original,
@@ -75,20 +85,22 @@ const handleCreateIsProducer = (data) => {
     convertStringToYear(data.productionYear),
   ]
 
-  if (data.producers.length != 0) {
-    data.producers.forEach(producer => {
-      db.query(
-        insertQuery,
-        [...insertValues, producer.nome_art],
-        (err) => {
-          if (err) return
+  data.producers.forEach(producer => {
+    db.query(
+      insertQuery,
+      [...insertValues, producer.nome_art],
+      (err) => {
+        if (err) {
+          console.log(err)
+          res.status(500).json(err)
+          return
         }
-      )
-    })
-  }
+      }
+    )
+  })
 }
 
-const handleCreateIsScreenwriter = (data) => {
+const handleCreateIsScreenwriter = (res, data) => {
   const insertQuery = `
     INSERT INTO "eh_roteirista"(
       filme_titulo_original,
@@ -103,20 +115,22 @@ const handleCreateIsScreenwriter = (data) => {
     convertStringToYear(data.productionYear),
   ]
 
-  if (data.screenwriters.length != 0) {
-    data.screenwriters.forEach(screenwriter => {
-      db.query(
-        insertQuery,
-        [...insertValues, screenwriter.nome_art],
-        (err) => {
-          if (err) return
+  data.screenwriters.forEach(screenwriter => {
+    db.query(
+      insertQuery,
+      [...insertValues, screenwriter.nome_art],
+      (err) => {
+        if (err) {
+          console.log(err)
+          res.status(500).json(err)
+          return
         }
-      )
-    })
-  }
+      }
+    )
+  })
 }
 
-const handleCreateMainActors = (data) => {
+const handleCreateMainActors = (res, data) => {
   const insertQuery = `
     INSERT INTO "ator_princ"(
       filme_titulo_original,
@@ -131,20 +145,22 @@ const handleCreateMainActors = (data) => {
     convertStringToYear(data.productionYear),
   ]
 
-  if (data.mainActors.length != 0) {
-    data.mainActors.forEach(actor => {
-      db.query(
-        insertQuery,
-        [...insertValues, actor.nome_art],
-        (err) => {
-          if (err) return
+  data.mainActors.forEach(actor => {
+    db.query(
+      insertQuery,
+      [...insertValues, actor.nome_art],
+      (err) => {
+        if (err) {
+          console.log(err)
+          res.status(500).json(err)
+          return
         }
-      )
-    })
-  }
+      }
+    )
+  })
 }
 
-const handleCreateCastActors = (data) => {
+const handleCreateCastActors = (res, data) => {
   const insertQuery = `
     INSERT INTO "ator_elenco"(
       filme_titulo_original,
@@ -159,20 +175,24 @@ const handleCreateCastActors = (data) => {
     convertStringToYear(data.productionYear),
   ]
 
-  if (data.castActors.length != 0) {
-    data.castActors.forEach(actor => {
-      db.query(
-        insertQuery,
-        [...insertValues, actor.nome_art],
-        (err) => {
-          if (err) return
+  data.castActors.forEach(actor => {
+    db.query(
+      insertQuery,
+      [...insertValues, actor.nome_art],
+      (err) => {
+        if (err) {
+          console.log(err)
+          res.status(500).json(err)
+          return
         }
-      )
-    })
-  }
+      }
+    )
+  })
 }
 
 const createMovie = async (req, res) => {
+  let insertMovieResult
+
   const insertQuery = `
     INSERT INTO "filme"(
       titulo_original,
@@ -198,35 +218,44 @@ const createMovie = async (req, res) => {
     req.body.type,
   ]
 
-  try {
-    await new Promise((resolve, reject) => {
-      db.query(insertQuery, insertValues, (err, result) => {
-        if (err) {
-          reject(err)
-          return
-        }
-  
-        resolve(result)
-      })  
-    })
+    db.query(insertQuery, insertValues, (err, result) => {
+      if (err) {
+        console.log(err)
+        res.status(500).json(err)
+        return
+      }
 
-    handleCreatePremiereLocation(req.body)
-    handleCreateIsDirector(req.body)
-    handleCreateIsProducer(req.body)
-    handleCreateIsScreenwriter(req.body)
-    handleCreateMainActors(req.body)
-    handleCreateCastActors(req.body)
+      insertMovieResult = result
+    }) 
+
+    handleCreatePremiereLocation(res, req.body)
+    handleCreateIsDirector(res, req.body)
+    handleCreateIsProducer(res, req.body)
+    handleCreateIsScreenwriter(res, req.body)
+    handleCreateMainActors(res, req.body)
+    handleCreateCastActors(res, req.body)
   
-    console.log('Filme Inserido com Sucesso!!!')
-    res.sendStatus(200)
-  }
-  catch(err) {
-    console.log(err)
-    res.sendStatus(500)
-  }
-  
+    res.status(200).json(insertMovieResult)
+}
+
+const listMovie = (req, res) => {
+  const listQuery = `
+    SELECT *
+    FROM "filme"
+  `
+
+  db.query(listQuery, [], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).json(err)
+      return
+    }
+    
+    res.status(200).json(result.rows)
+  })
 }
 
 module.exports = {
-  createMovie
+  createMovie,
+  listMovie,
 }

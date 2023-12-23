@@ -52,16 +52,14 @@ const createPerson = (req, res) => {
     roles.flagAtor ? 1 : 0
   ]
 
-  db.query(insertQuery, insertValues, (err) => {
+  db.query(insertQuery, insertValues, (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
 
-    console.log('Usuário Inserido com Sucesso!!!')
-  
-    res.sendStatus(200)
+    res.sendStatus(200).json(result)
   })
 }
 
@@ -75,10 +73,10 @@ const listActors = (req, res) => {
   db.query(listQuery, [], (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
-  
+    
     res.status(200).json(result.rows)
   })
 }
@@ -89,11 +87,10 @@ const listDirectors = (req, res) => {
     FROM "pessoa"
     WHERE flag_diretor = TRUE;
   `
-
   db.query(listQuery, [], (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
   
@@ -111,7 +108,7 @@ const listProducers = (req, res) => {
   db.query(listQuery, [], (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
   
@@ -129,7 +126,7 @@ const listScreenwriters = (req, res) => {
   db.query(listQuery, [], (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
   
@@ -140,13 +137,14 @@ const listScreenwriters = (req, res) => {
 const listAllPerson = (req, res) => {
   const listQuery = `
     SELECT *
-    FROM "pessoa";
+    FROM "pessoa"
+    WHERE sitauacao = 'Ativo';
   `
 
   db.query(listQuery, [], (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
 

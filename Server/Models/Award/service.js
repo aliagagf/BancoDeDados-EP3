@@ -1,6 +1,6 @@
 const db = require('../../DataBase/db')
 
-const createAward = (req, res) => {
+const createAward = async (req, res) => {
   const insertQuery = `
     INSERT INTO "premio" (tipo, edicao_ano, edicao_nome_evento, nome)
     VALUES ($1, $2, $3, $4)
@@ -16,17 +16,32 @@ const createAward = (req, res) => {
   db.query(insertQuery, insertValues, (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(200).json(err)
       return
     }
 
-    console.log(result)
-    console.log('Prêmio Inserido com Sucesso!!!')
+    res.status(200).json(result)
+  })
+}
 
-    res.sendStatus(200)
+const listAward = async (req, res) => {
+  const listQuery = `
+    SELECT *
+    FROM "premio"
+  `
+
+  db.query(listQuery, [], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(200).json(err)
+      return
+    }
+
+    res.status(200).json(result)
   })
 }
 
 module.exports = {
   createAward,
+  listAward,
 }

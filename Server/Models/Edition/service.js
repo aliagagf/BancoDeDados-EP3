@@ -2,7 +2,7 @@ const db = require('../../DataBase/db')
 const convertStringToYear = require('../../Utils/convertStringToYear')
 const convertStringToDate = require('../../Utils/convertStringToDate')
 
-const handleCreateJury = (data) => {
+const handleCreateJury = (res, data) => {
   const insertQuery = `
     INSERT INTO "eh_juri" (edicao_ano, edicao_nome_evento, pessoa_nome_art)
     VALUES ($1, $2, $3)
@@ -18,7 +18,11 @@ const handleCreateJury = (data) => {
       insertQuery,
       [...insertValues, person.nome_art],
       (err) => {
-        if (err) return
+        if (err) {
+          console.log(err)
+          res.status(500).json(err)
+          return
+        }
       },
     )
   })
@@ -37,17 +41,16 @@ const createEdition = (req, res) => {
     convertStringToDate(req.body.date),
   ]
 
-  db.query(insertQuery, insertValues, (err) => {
+  db.query(insertQuery, insertValues, (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
 
-    handleCreateJury(req.body)
+    handleCreateJury(res, req.body)
 
-    console.log('Edição Inserido com Sucesso!!!')
-    res.sendStatus(200)
+    res.sendStatus(200).json(result)
   })
 }
 
@@ -60,7 +63,7 @@ const listEdition = (req, res) => {
   db.query(listQuery, [], (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
 

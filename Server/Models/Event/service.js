@@ -17,14 +17,11 @@ const createEvent = (req, res) => {
   db.query(insertQuery, insertValues, (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
 
-    console.log(result)
-    console.log('Evento Inserido com Sucesso!!!')
-
-    res.sendStatus(200)
+    res.status(200).json(result)
   })
 }
 
@@ -36,7 +33,7 @@ const listEvent = (req, res) => {
   db.query(listEvent, [], (err, result) => {
     if (err) {
       console.log(err)
-      res.sendStatus(500)
+      res.status(500).json(err)
       return
     }
 

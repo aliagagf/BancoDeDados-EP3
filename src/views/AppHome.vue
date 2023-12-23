@@ -85,9 +85,15 @@
     v-if="shouldOpenCreateMovieModal"
     @closeModal="closeCreateMovieModal"
   />
+
   <CreateEdition
     v-if="shouldOpenCreateGiveAwardModal"
     @closeModal="closeCreateGiveAwardModal"
+  />
+
+  <CreateMovieAward
+    v-if="shouldOpenCreateMovieAward"
+    @closeModal="closeCreateMovieAward"
   />
 </template>
 
@@ -97,15 +103,17 @@ import CreateEvent from '@/components/Modals/CreateEvent.vue'
 import CreateAward from '@/components/Modals/CreateAward.vue'
 import CreateMovie from '@/components/Modals/CreateMovie.vue'
 import CreateEdition from '@/components/Modals/CreateEdition.vue'
+import CreateMovieAward from '@/components/Modals/CreateMovieAward.vue'
 
 export default {
   name: 'AppHome',
   components: {
-    CreatePerson,
-    CreateEvent,
     CreateAward,
-    CreateMovie,
     CreateEdition,
+    CreateEvent,
+    CreateMovie,
+    CreateMovieAward,
+    CreatePerson,
 },
   data() {
     return {
@@ -113,7 +121,7 @@ export default {
       shouldOpenCreateEventModal: false,
       shouldOpenCreateAwardModal: false,
       shouldOpenCreateMovieModal: false,
-      shouldOpenCreateGiveAwardModal: false,
+      shouldOpenCreateMovieAward: false,
       configurationOptions: [
         { title: 'Inserir Nova Pessoa' },
         { title: 'Inserir Novo Evento' },
@@ -178,6 +186,12 @@ export default {
     },
     closeCreateGiveAwardModal() {
       this.shouldOpenCreateGiveAwardModal = false
+    },
+    openCreateMovieAward() {
+      this.shouldOpenCreateMovieAward = true
+    },
+    closeCreateMovieAward() {
+      this.shouldOpenCreateMovieAward = false
     },
   },
 }

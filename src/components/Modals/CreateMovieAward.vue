@@ -2,7 +2,7 @@
 	<v-dialog
 		max-width="800"
 		:model-value="true"
-		:persistent="true"
+		persistent
 		@click:outside="closeModal"
 	>
 		<v-card>
@@ -38,10 +38,29 @@
 					<v-row>
 						<v-col>
 							<v-autocomplete
+								label="Filme"
+								multiple
+								clearable
+								:items="movies"
+							/>
+						</v-col>
+
+						<v-col>
+							<v-autocomplete
 								label="Premio"
 								multiple
-								:clearable="true"
+								clearable
 								:items="awards"
+							/>
+						</v-col>
+
+						<v-col>
+							<v-select
+								v-model="isAwarded"
+								label="É premiado"
+								multiple
+								clearable
+								:items="isAwardedOptions"
 							/>
 						</v-col>
 					</v-row>
@@ -67,7 +86,7 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="handleCreateGiveAward"
+                @click="handleCreateMovieAward"
               >
                 Cadastrar Premiação
               </v-btn>
@@ -80,21 +99,30 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
-	name: 'CreateGiveAward',
+	name: 'CreateMovieAward',
 	data() {
 		return {
+			movies: [],
+			awards: [],
 			selectedMovies: [],
-			awards: ['teste1', 'teste2']
+			isAwardedOptions: ['Sim', 'Não']
 		}
 	},
+	async mounted() {
+		const moviesReponse = await axios.get('/filme')
+		this.movies = moviesReponse.data
 
+		const awardsReponse = await axios.get('/premio')
+		this.award = awardsReponse.data
+	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')
 		},
-		handleCreateGiveAward() {
+		handleCreateMovieAward() {
 			console.log('Criando Premiação....')
 		},
 	}
