@@ -2,7 +2,7 @@ const db = require('../../DataBase/db')
 const convertStringToYear = require('../../Utils/convertStringToYear')
 const convertStringToDate = require('../../Utils/convertStringToDate')
 
-const handleCreateJury = (res, data) => {
+const handleCreateJury = async (res, data) => {
   const insertQuery = `
     INSERT INTO "eh_juri" (edicao_ano, edicao_nome_evento, pessoa_nome_art)
     VALUES ($1, $2, $3)
@@ -13,22 +13,12 @@ const handleCreateJury = (res, data) => {
     data.event.nome,
   ]
 
-  data.jury.forEach(person => {
-    db.query(
-      insertQuery,
-      [...insertValues, person.nome_art],
-      (err) => {
-        if (err) {
-          console.log(err)
-          res.status(500).json(err)
-          return
-        }
-      },
-    )
+  data.jury.map(async (person) => {
+    await db.query(insertQuery, [...insertValues, person.nome_art])
   })
 }
 
-const createEdition = (req, res) => {
+const createEdition = async (req, res) => {
   const insertQuery = `
     INSERT INTO "edicao" (ano, nome_evento, localizacao, data)
     VALUES ($1, $2, $3, $4)
@@ -40,35 +30,25 @@ const createEdition = (req, res) => {
     req.body.place,
     convertStringToDate(req.body.date),
   ]
+  try {
+    await db.query(insertQuery, insertValues)
+    await handleCreateJury(res, req.body)
 
-  db.query(insertQuery, insertValues, (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
-
-    handleCreateJury(res, req.body)
-
-    res.sendStatus(200).json(result)
-  })
+    res.sendStatus(200)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
-const listEdition = (req, res) => {
+const listEdition = async (req, res) => {
   const listQuery = `
     SELECT *
     FROM "edicao"
   `
 
-  db.query(listQuery, [], (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
-
-    res.status(200).json(result.rows)
-  })
+  const editions = await db.query(listQuery, [])
+  res.status(200).json(editions.rows)
 }
 
 module.exports = {

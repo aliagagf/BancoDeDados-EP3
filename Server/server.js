@@ -9,9 +9,11 @@ const {
   listScreenwriters,
 } = require('./Models/Person/service')
 const { createAward, listAward } = require('./Models/Award/service')
-const { createMovie, listMovie } = require('./Models/Movie/service')
 const { createEdition, listEdition } = require('./Models/Edition/service')
 const { createEvent, listEvent } = require('./Models/Event/service')
+const { createMovie, listMovie } = require('./Models/Movie/service')
+const { createMovieAward } = require('./Models/MovieAward/service')
+const { createPersonAward } = require('./Models/PersonAward/service')
 
 const app = express()
 
@@ -30,6 +32,8 @@ app.get('/pessoa/roteiristas', listScreenwriters)
 app.get('/premio', listAward)
 app.post('/edicao', createEdition)
 app.post('/evento', createEvent)
+app.post('/filme_premiacao', createMovieAward)
+app.post('/pessoa_premiacao', createPersonAward)
 app.post('/filme', createMovie)
 app.post('/pessoa', createPerson)
 app.post('/premio', createAward)

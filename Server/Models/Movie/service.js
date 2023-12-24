@@ -149,9 +149,6 @@ const handleCreateCastActors = async ({
 }
 
 const createMovie = async (req, res) => {
-  db.query('BEGIN')
-  console.log('a')
-
   const insertQuery = `
     INSERT INTO "filme"(
       titulo_original,
@@ -189,9 +186,6 @@ const createMovie = async (req, res) => {
       handleCreatePremiereLocation(req.body),
     ])
 
-    console.log('b')
-    db.query('COMMIT')
-
     res.sendStatus(200)
   } catch (err) {
     console.log(err)
@@ -206,8 +200,8 @@ const listMovie = async (req, res) => {
   `
 
   try {
-    await db.query(listQuery, [])
-    res.sendStatus(200)
+    const movies = await db.query(listQuery, [])
+    res.status(200).json(movies.rows)
   } catch (err) {
     console.log(err)
     res.status(500).json(err)

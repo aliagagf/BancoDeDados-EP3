@@ -13,15 +13,13 @@ const createAward = async (req, res) => {
     req.body.name,
   ]
 
-  db.query(insertQuery, insertValues, (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(200).json(err)
-      return
-    }
-
-    res.status(200).json(result)
-  })
+  try {
+    await db.query(insertQuery, insertValues)
+    res.sendStatus(200)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
 const listAward = async (req, res) => {
@@ -30,15 +28,13 @@ const listAward = async (req, res) => {
     FROM "premio"
   `
 
-  db.query(listQuery, [], (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(200).json(err)
-      return
-    }
-
-    res.status(200).json(result)
-  })
+  try {
+    const awards = await db.query(listQuery, [])
+    res.status(200).json(awards.rows)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
 module.exports = {

@@ -156,8 +156,8 @@ export default {
 			jury: [],
 			persons: [],
 			place: '',
-			shouldShowSnackbar: false,
-			snackbarMessage: '',
+			shouldShowSnackBar: false,
+			snackBarMessage: '',
 			year: '',
 		}
 	},
@@ -173,7 +173,7 @@ export default {
 			this.$emit('closeModal')
 		},
 		async handleCreateEdition() {
-			const response = axios.post('/edicao', {
+			const response = await axios.post('/edicao', {
 				date: this.date,
 				event: this.event,
 				jury: this.jury,
@@ -182,7 +182,7 @@ export default {
 			})
 
 			if (response.status === 200) {
-				this.snackbarMessage = 'Edição cadastrar com sucesso!!!'
+				this.snackbarMessage = 'Edição cadastrada com sucesso!!!'
 				this.shouldShowSnackbar = true
 				return
 			}

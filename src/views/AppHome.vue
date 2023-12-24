@@ -95,6 +95,11 @@
     v-if="shouldOpenCreateMovieAward"
     @closeModal="closeCreateMovieAward"
   />
+
+  <CreatePersonAward
+    v-if="shouldOpenCreatePersonAwardModal"
+    @closeModal="closeCreatePersonAwardModal"
+  />
 </template>
 
 <script>
@@ -104,6 +109,7 @@ import CreateAward from '@/components/Modals/CreateAward.vue'
 import CreateMovie from '@/components/Modals/CreateMovie.vue'
 import CreateEdition from '@/components/Modals/CreateEdition.vue'
 import CreateMovieAward from '@/components/Modals/CreateMovieAward.vue'
+import CreatePersonAward from '@/components/Modals/CreatePersonAward.vue'
 
 export default {
   name: 'AppHome',
@@ -114,20 +120,22 @@ export default {
     CreateMovie,
     CreateMovieAward,
     CreatePerson,
+    CreatePersonAward
 },
   data() {
     return {
-      shouldOpenCreatePersonModal: false,
-      shouldOpenCreateEventModal: false,
       shouldOpenCreateAwardModal: false,
-      shouldOpenCreateMovieModal: false,
-      shouldOpenCreateMovieAward: false,
       shouldOpenCreateEditionModal: false,
+      shouldOpenCreateEventModal: false,
+      shouldOpenCreateMovieAward: false,
+      shouldOpenCreateMovieModal: false,
+      shouldOpenCreatePersonAwardModal: false,
+      shouldOpenCreatePersonModal: false,
       configurationOptions: [
         { title: 'Inserir Nova Pessoa' },
         { title: 'Inserir Novo Evento' },
-        { title: 'Inserir Novo Prêmio' },
         { title: 'Inserir Nova Edição' },
+        { title: 'Inserir Novo Prêmio' },
         { title: 'Inserir Novo Filme' },
         { title: 'Inserir Premiação para Filme' },
         { title: 'Inserir Premiação para Ator (Atriz)' },
@@ -156,7 +164,6 @@ export default {
       if (title === 'Inserir Premiação para Filme') this.openCreateMovieAward()
 
       if (title === 'Inserir Premiação para Ator (Atriz)') this.openCreatePersonAward()
-
     },
     openCreatePersonModal() {
       this.shouldOpenCreatePersonModal = true
@@ -193,6 +200,12 @@ export default {
     },
     closeCreateMovieAward() {
       this.shouldOpenCreateMovieAward = false
+    },
+    openCreatePersonAward() {
+      this.shouldOpenCreatePersonAwardModal = true
+    },
+    closeCreatePersonAwardModal() {
+      this.shouldOpenCreatePersonAwardModal = false
     },
   },
 }

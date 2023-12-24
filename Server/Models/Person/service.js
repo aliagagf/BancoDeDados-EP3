@@ -16,7 +16,7 @@ const getRoles = (roles) => roles.reduce(
   {},
 )
 
-const createPerson = (req, res) => {
+const createPerson = async (req, res) => {
   const roles = getRoles(req.body.roles)
 
   const insertQuery = `
@@ -52,103 +52,97 @@ const createPerson = (req, res) => {
     roles.flagAtor ? 1 : 0
   ]
 
-  db.query(insertQuery, insertValues, (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
+  try {
+    await db.query(insertQuery, insertValues)
 
-    res.sendStatus(200).json(result)
-  })
+    res.sendStatus(200)
+  } catch(err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
-const listActors = (req, res) => {
+const listActors = async (req, res) => {
   const listQuery = `
     SELECT *
     FROM "pessoa"
     WHERE flag_ator = TRUE;
   `
 
-  db.query(listQuery, [], (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
+  try {
+    const actors = await db.query(listQuery, [],)
     
-    res.status(200).json(result.rows)
-  })
+    res.status(200).json(actors.rows)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
-const listDirectors = (req, res) => {
+const listDirectors = async (req, res) => {
   const listQuery = `
     SELECT *
     FROM "pessoa"
     WHERE flag_diretor = TRUE;
   `
-  db.query(listQuery, [], (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
-  
-    res.status(200).json(result.rows)
-  })
+  try {
+    const directors = await db.query(listQuery, [],)
+    
+    res.status(200).json(directors.rows)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
-const listProducers = (req, res) => {
+const listProducers = async (req, res) => {
   const listQuery = `
     SELECT *
     FROM "pessoa"
     WHERE flag_produtor = TRUE;
   `
 
-  db.query(listQuery, [], (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
-  
-    res.status(200).json(result.rows)
-  })
+  try {
+    const producers = await db.query(listQuery, [],)
+    
+    res.status(200).json(producers.rows)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
-const listScreenwriters = (req, res) => {
+const listScreenwriters = async (req, res) => {
   const listQuery = `
     SELECT *
     FROM "pessoa"
     WHERE flag_roteirista = TRUE;
   `
 
-  db.query(listQuery, [], (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
-  
-    res.status(200).json(result.rows)
-  })
+  try {
+    const screenwriters = await db.query(listQuery, [],)
+    
+    res.status(200).json(screenwriters.rows)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
-const listAllPerson = (req, res) => {
+const listAllPerson = async (req, res) => {
   const listQuery = `
     SELECT *
     FROM "pessoa";
   `
 
-  db.query(listQuery, [], (err, result) => {
-    if (err) {
-      console.log(err)
-      res.status(500).json(err)
-      return
-    }
-
-    res.status(200).json(result.rows)
-  })
+  try {
+    const persons = await db.query(listQuery, [],)
+    
+    res.status(200).json(persons.rows)
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
 module.exports = {

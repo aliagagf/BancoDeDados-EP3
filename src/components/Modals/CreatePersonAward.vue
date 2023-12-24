@@ -1,7 +1,7 @@
 <template>
 	<v-dialog
+		max-width="1250"
 		:model-value="true"
-		max-width="800"
 		persistent
 	>
 		<v-card>
@@ -11,11 +11,12 @@
 						<v-col
 							cols="11"
 						>
-							<h2>
-							Cadastrar Prêmio
+						<h2>
+							Cadastrar Premiação para Ator (Atriz)
 						</h2>
+                        
 						</v-col>
-
+                        
 						<v-col
 							cols="1"
 							justify="end"
@@ -34,34 +35,54 @@
 			<v-card-text>
 				<v-container>
 					<v-row>
-						<v-col>
-							<v-text-field
-								v-model="type"
-								label="Tipo"
+            <v-col>
+							<v-autocomplete
+								v-model="selectedAward"
+								label="Premio"
 								clearable
+								item-title="nome"
+								item-value="nome"
+								return-object
+								:items="awards"
 							/>
 						</v-col>
 
-						<v-col>
-							<v-text-field
-								v-model="name"
-								label="Nome"
+            <v-col>
+              <v-autocomplete
+                v-model="selectedPerson"
+								label="Ator (Atriz)"
 								clearable
-							/>
-						</v-col>
+								item-title="nome_art"
+								item-value="nome_art"
+								return-object
+								:items="persons"
+              />
+            </v-col>
+					</v-row>
 
+          <v-row>
 						<v-col>
 							<v-autocomplete
-								v-model="edition"
-								label="Edição"
+								v-model="selectedMovie"
+								label="Filme"
 								clearable
-								item-title="nome_evento"
-								item-value="nome_evento"
-								return-object=""
-								:items="editions"
+								item-title="titulo_original"
+								item-value="titulo_original"
+								return-object
+								:items="movies"
 							/>
 						</v-col>
-					</v-row>
+
+						<v-col>
+							<v-select
+								v-model="isAwarded"
+								label="Ganhou"
+								multiple
+								clearable
+								:items="isAwardedOptions"
+							/>
+						</v-col>
+          </v-row>
 
 					<v-row
             justify="end"
@@ -84,9 +105,9 @@
               <v-btn
                 variant="flat"
                 color="#FAC95F"
-                @click="handleCreateAward"
+                @click="handleCreatePersonAward"
               >
-                Cadastrar Prêmio
+                Cadastrar Premiação
               </v-btn>
             </v-col>
           </v-row>
@@ -120,45 +141,51 @@
 import axios from 'axios'
 
 export default {
-	name: 'CreateAward',
-	emits: [
-    'closeModal',
-  ],
+	name: 'CreateMovieAward',
 	data() {
 		return {
-			edition: null,
-			editions: [],
-			name: '',
+			awards: [],
+			isAwarded: null,
+			isAwardedOptions: ['Sim', 'Não'],
+			movies: [],
+			selectedAward: [],
+			selectedMovie: null,
 			shouldShowSnackBar: false,
 			snackBarMessage: '',
-			type: '',
+      persons: [],
+      selectedPerson: null,
 		}
 	},
 	async mounted() {
-		const response = await axios.get('/edicao')
-		this.editions = response.data
+		const moviesReponse = await axios.get('/filme')
+		this.movies = moviesReponse.data
+
+		const awardsReponse = await axios.get('/premio')
+		this.awards = awardsReponse.data
+
+    const personReponse = await axios.get('/pessoa')
+    this.persons = personReponse.data
 	},
 	methods: {
 		closeModal() {
 			this.$emit('closeModal')
 		},
-		async handleCreateAward() {
-			const response = await axios.post('/premio', {
-				edition: this.edition,
-				name: this.name,
-				type: this.type,
+		async handleCreatePersonAward() {
+			const response = await axios.post('/pessoa_premiacao', {
+				award: this.selectedAward,
+				isAwarded: this.isAwarded === 'Sim',
+				movie: this.selectedMovie,
+        person: this.selectedPerson,
 			})
 
-			console.log(response)
-
 			if (response.status === 200) {
-				this.snackBarMessage = 'Prêmio cadastrado com sucesso!!!'
+				this.snackBarMessage = 'Premiação para pessoa cadastrada com sucesso!!!'
 				this.shouldShowSnackBar = true
 				return
 			}
 
 			if (response.status === 500) {
-				this.snackBarMessage = 'Erro ao cadsatrar Prêmio, verifique os campos'
+				this.snackBarMessage = 'Erro ao cadastrar premiação para pessoa, verifique os campos'
 				this.shouldShowSnackBar = true
 			}
 		},

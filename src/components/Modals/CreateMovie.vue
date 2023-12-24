@@ -311,7 +311,7 @@ export default {
 			})
 
 			if (response.status === 200) {
-				this.snackBarMessage = 'Filme cadastrado com sucesso'
+				this.snackBarMessage = 'Filme cadastrado com sucesso!!!'
 				this.shouldShowSnackBar = true
 			}
 
