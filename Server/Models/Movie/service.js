@@ -206,10 +206,49 @@ const listMovie = async (req, res) => {
     console.log(err)
     res.status(500).json(err)
   }
+}
 
+const listMostAwardedMovies = async (req, res) => {
+  const listQuery = `
+    SELECT filme_titulo_original, count(*) as total_premios
+    FROM filme_nomeado as fn
+    WHERE fn.premiado = TRUE
+    GROUP BY filme_titulo_original
+    ORDER BY total_premios DESC, filme_titulo_original ASC
+    LIMIT 10;
+  `
+
+  try {
+    const mostAwardedMovies = await db.query(listQuery)
+
+    res.status(200).json(mostAwardedMovies.rows)
+  } catch(err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
+}
+
+const listMostGrossingMovies = async (req, res) => {
+  const listQuery = `
+    SELECT titulo_original, arrecadacao_prim_ano
+    FROM filme
+    ORDER BY arrecadacao_prim_ano DESC, titulo_original ASC
+    LIMIT 10;
+  `
+
+  try {
+    const mostGrossingMovies = await db.query(listQuery)
+
+    res.status(200).json(mostGrossingMovies.rows)
+  } catch(err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
 }
 
 module.exports = {
   createMovie,
+  listMostAwardedMovies,
+  listMostGrossingMovies,
   listMovie,
 }

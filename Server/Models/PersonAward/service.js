@@ -34,6 +34,27 @@ const createPersonAward = async (req, res) => {
   }
 }
 
+const listMostAwardedPerson = async (req, res) => {
+  const listQuery = `
+    SELECT pessoa_nome_art, count(*) as total_premios
+    FROM eh_nomeado as en
+    WHERE en.ganhou = TRUE
+    GROUP BY pessoa_nome_art
+    ORDER BY total_premios DESC, pessoa_nome_art ASC
+    LIMIT 10;
+  `
+
+  try {
+    const mostAwardedPersonawait = await db.query(listQuery)
+
+    res.status(200).json(mostAwardedPersonawait.rows)
+  } catch(err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
+}
+
 module.exports = {
   createPersonAward,
+  listMostAwardedPerson,
 }

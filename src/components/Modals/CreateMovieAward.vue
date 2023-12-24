@@ -63,7 +63,6 @@
 							<v-select
 								v-model="isAwarded"
 								label="É premiado"
-								multiple
 								clearable
 								:items="isAwardedOptions"
 							/>

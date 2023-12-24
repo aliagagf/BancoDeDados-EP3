@@ -145,10 +145,31 @@ const listAllPerson = async (req, res) => {
   }
 }
 
+const listBestActors = async (req, res) => {
+  const listQuery = `
+    SELECT pessoa_nome_art, COUNT(*) AS numero_premios
+    FROM pessoa AS pe INNER JOIN eh_nomeado AS en ON pe.nome_art = en.pessoa_nome_art
+    WHERE en.premio_tipo = 'Melhor Ator' 
+      OR en.premio_tipo = 'Melhor Atriz'
+      AND pe.flag_ator = TRUE
+    GROUP BY pessoa_nome_art;
+  `
+
+  try {
+    const reponseBestActors = await db.query(listQuery)
+
+    res.status(200).json(reponseBestActors.rows)
+  } catch(err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
+}
+
 module.exports = {
   createPerson,
   listActors,
   listAllPerson,
+  listBestActors,
   listDirectors,
   listProducers,
   listScreenwriters,

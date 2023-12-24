@@ -77,7 +77,6 @@
 							<v-select
 								v-model="isAwarded"
 								label="Ganhou"
-								multiple
 								clearable
 								:items="isAwardedOptions"
 							/>

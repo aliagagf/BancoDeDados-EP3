@@ -57,6 +57,7 @@
           <v-col>
             <v-btn
               variant="outlined"
+              @click="handleReportOpenModalCall(option.title)"
             >
               {{ option.title }}
             </v-btn>
@@ -100,27 +101,55 @@
     v-if="shouldOpenCreatePersonAwardModal"
     @closeModal="closeCreatePersonAwardModal"
   />
+
+  <MostAwardedPerson
+    v-if="shouldOpenMostAwardedPersonModal"
+    @closeModal="closeMostAwardedPersonModal"
+  />
+
+  <MostAwardedMovie
+    v-if="shouldOpenMostAwardedMovieModal"
+    @closeModal="closeMostAwardedMovieModal"
+  />
+
+  <MostGrossingMovie
+    v-if="shouldOpenMostGrossingMovieModal"
+    @closeModal="closeMostGrossingMovieModal"
+  />
+
+  <BestActorAward
+    v-if="shouldOpenBestActorsAwardsModal"
+    @closeModal="closeBestActorsAwardsModal"
+  />
 </template>
 
 <script>
-import CreatePerson from '@/components/Modals/CreatePerson.vue'
-import CreateEvent from '@/components/Modals/CreateEvent.vue'
+import BestActorAward from '@/components/Modals/BestActorAwards.vue'
 import CreateAward from '@/components/Modals/CreateAward.vue'
-import CreateMovie from '@/components/Modals/CreateMovie.vue'
 import CreateEdition from '@/components/Modals/CreateEdition.vue'
+import CreateEvent from '@/components/Modals/CreateEvent.vue'
+import CreateMovie from '@/components/Modals/CreateMovie.vue'
 import CreateMovieAward from '@/components/Modals/CreateMovieAward.vue'
+import CreatePerson from '@/components/Modals/CreatePerson.vue'
 import CreatePersonAward from '@/components/Modals/CreatePersonAward.vue'
+import MostAwardedMovie from '@/components/Modals/MostAwardedMovie.vue'
+import MostAwardedPerson from '@/components/Modals/MostAwardedPerson.vue'
+import MostGrossingMovie from '@/components/Modals/MostGrossingMovie.vue'
 
 export default {
   name: 'AppHome',
   components: {
+    BestActorAward,
     CreateAward,
     CreateEdition,
     CreateEvent,
     CreateMovie,
     CreateMovieAward,
     CreatePerson,
-    CreatePersonAward
+    CreatePersonAward,
+    MostAwardedMovie,
+    MostAwardedPerson,
+    MostGrossingMovie,
 },
   data() {
     return {
@@ -131,6 +160,10 @@ export default {
       shouldOpenCreateMovieModal: false,
       shouldOpenCreatePersonAwardModal: false,
       shouldOpenCreatePersonModal: false,
+      shouldOpenMostAwardedMovieModal: false,
+      shouldOpenMostAwardedPersonModal: false,
+      shouldOpenMostGrossingMovieModal: false,
+      shouldOpenBestActorsAwardsModal: false,
       configurationOptions: [
         { title: 'Inserir Nova Pessoa' },
         { title: 'Inserir Novo Evento' },
@@ -142,7 +175,7 @@ export default {
       ],
       reportOptions: [
         { title: 'As 10 Pessoas Mais Premiadas' },
-        { title: 'Os 10 Filmes Mais Premiadas' },
+        { title: 'Os 10 Filmes Mais Premiados' },
         { title: 'Os 10 Filmes com Maior Bilheteria' },
         { title: 'Melhores Atores (Atrizes)' },
         { title: 'Vencedores de Prêmios' },
@@ -164,6 +197,17 @@ export default {
       if (title === 'Inserir Premiação para Filme') this.openCreateMovieAward()
 
       if (title === 'Inserir Premiação para Ator (Atriz)') this.openCreatePersonAward()
+    },
+    handleReportOpenModalCall(title) {
+      console.log(title)
+      if (title === 'As 10 Pessoas Mais Premiadas') this.openMostAwardedPersonModal()
+
+      if (title === 'Os 10 Filmes Mais Premiados') this.openMostAwardedMovieModal()
+      
+      if (title === 'Os 10 Filmes com Maior Bilheteria') this.openMostGrossingMovieModal()
+
+      if (title === 'Melhores Atores (Atrizes)') this.openBestActorsAwardsModal()
+
     },
     openCreatePersonModal() {
       this.shouldOpenCreatePersonModal = true
@@ -206,6 +250,30 @@ export default {
     },
     closeCreatePersonAwardModal() {
       this.shouldOpenCreatePersonAwardModal = false
+    },
+    openMostAwardedPersonModal() {
+      this.shouldOpenMostAwardedPersonModal = true
+    },
+    closeMostAwardedPersonModal() {
+      this.shouldOpenMostAwardedPersonModal = false
+    },
+    openMostAwardedMovieModal() {
+      this.shouldOpenMostAwardedMovieModal = true
+    },
+    closeMostAwardedMovieModal() {
+      this.shouldOpenMostAwardedMovieModal = false
+    },
+    openMostGrossingMovieModal() {
+      this.shouldOpenMostGrossingMovieModal = true
+    },
+    closeMostGrossingMovieModal() {
+      this.shouldOpenMostGrossingMovieModal = false
+    },
+    openBestActorsAwardsModal() {
+      this.shouldOpenBestActorsAwardsModal = true
+    },
+    closeBestActorsAwardsModal() {
+      this.shouldOpenBestActorsAwardsModal = false
     },
   },
 }
