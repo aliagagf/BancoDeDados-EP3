@@ -121,9 +121,15 @@
     v-if="shouldOpenBestActorsAwardsModal"
     @closeModal="closeBestActorsAwardsModal"
   />
+
+  <Awards
+    v-if="shouldOpenAwardsModal"
+    @closeModal="closeAwardsModal"
+  />
 </template>
 
 <script>
+import Awards from '@/components/Modals/Awards.vue'
 import BestActorAward from '@/components/Modals/BestActorAwards.vue'
 import CreateAward from '@/components/Modals/CreateAward.vue'
 import CreateEdition from '@/components/Modals/CreateEdition.vue'
@@ -139,6 +145,7 @@ import MostGrossingMovie from '@/components/Modals/MostGrossingMovie.vue'
 export default {
   name: 'AppHome',
   components: {
+    Awards,
     BestActorAward,
     CreateAward,
     CreateEdition,
@@ -164,6 +171,7 @@ export default {
       shouldOpenMostAwardedPersonModal: false,
       shouldOpenMostGrossingMovieModal: false,
       shouldOpenBestActorsAwardsModal: false,
+      shouldOpenAwardsModal: false,
       configurationOptions: [
         { title: 'Inserir Nova Pessoa' },
         { title: 'Inserir Novo Evento' },
@@ -178,7 +186,7 @@ export default {
         { title: 'Os 10 Filmes Mais Premiados' },
         { title: 'Os 10 Filmes com Maior Bilheteria' },
         { title: 'Melhores Atores (Atrizes)' },
-        { title: 'Vencedores de Prêmios' },
+        { title: 'Indicados a Prêmios' },
       ]
     }
   },
@@ -199,7 +207,6 @@ export default {
       if (title === 'Inserir Premiação para Ator (Atriz)') this.openCreatePersonAward()
     },
     handleReportOpenModalCall(title) {
-      console.log(title)
       if (title === 'As 10 Pessoas Mais Premiadas') this.openMostAwardedPersonModal()
 
       if (title === 'Os 10 Filmes Mais Premiados') this.openMostAwardedMovieModal()
@@ -207,6 +214,8 @@ export default {
       if (title === 'Os 10 Filmes com Maior Bilheteria') this.openMostGrossingMovieModal()
 
       if (title === 'Melhores Atores (Atrizes)') this.openBestActorsAwardsModal()
+
+      if (title === 'Indicados a Prêmios') this.openAwardsModal()
 
     },
     openCreatePersonModal() {
@@ -274,6 +283,12 @@ export default {
     },
     closeBestActorsAwardsModal() {
       this.shouldOpenBestActorsAwardsModal = false
+    },
+    openAwardsModal() {
+      this.shouldOpenAwardsModal = true
+    },
+    closeAwardsModal() {
+      this.shouldOpenAwardsModal = false
     },
   },
 }

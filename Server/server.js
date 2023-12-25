@@ -14,12 +14,19 @@ const { createEdition, listEdition } = require('./Models/Edition/service')
 const { createEvent, listEvent } = require('./Models/Event/service')
 const {
   createMovie,
-  listMovie,
-  listMostAwardedMovies,
+  listAllMovie,
   listMostGrossingMovies,
 } = require('./Models/Movie/service')
-const { createMovieAward } = require('./Models/MovieAward/service')
-const { createPersonAward, listMostAwardedPerson } = require('./Models/PersonAward/service')
+const { 
+  createMovieAward,
+  listAllAwardedMovies,
+  listMostAwardedMovies,
+} = require('./Models/MovieAward/service')
+const { 
+  createPersonAward,
+  listAllAwardedPersons,
+  listMostAwardedPerson,
+} = require('./Models/PersonAward/service')
 
 const app = express()
 
@@ -29,9 +36,11 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/edicao', listEdition)
 app.get('/evento', listEvent)
-app.get('/filme', listMovie)
+app.get('/filme', listAllMovie)
 app.get('/filme/mais_premiados', listMostAwardedMovies)
 app.get('/filme/maior_arrecadacao', listMostGrossingMovies)
+app.get('/filme_premiados', listAllAwardedMovies)
+app.get('/pessoa_premiadas', listAllAwardedPersons)
 app.get('/pessoa', listAllPerson)
 app.get('/pessoa/atores', listActors)
 app.get('/pessoa/diretores', listDirectors)
@@ -49,5 +58,5 @@ app.post('/pessoa', createPerson)
 app.post('/premio', createAward)
 
 app.listen(3030, () => {
-    console.log('Server listening on port 3030')
+  console.log('Server listening on port 3030')
 })

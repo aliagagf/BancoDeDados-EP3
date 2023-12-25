@@ -33,6 +33,47 @@ const createMovieAward = async (req, res) => {
   }
 }
 
+const listMostAwardedMovies = async (req, res) => {
+  const listQuery = `
+    SELECT filme_titulo_original, count(*) as total_premios
+    FROM filme_nomeado as fn
+    WHERE fn.premiado = TRUE
+    GROUP BY filme_titulo_original
+    ORDER BY total_premios DESC, filme_titulo_original ASC
+    LIMIT 10;
+  `
+
+  try {
+    const mostAwardedMovies = await db.query(listQuery)
+
+    res.status(200).json(mostAwardedMovies.rows)
+  } catch(err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
+}
+
+const listAllAwardedMovies = async (req, res) => {
+  const listQuery = `
+    SELECT edicao_ano, edicao_nome_evento, filme_ano_producao, filme_titulo_original,
+      premiado, nome AS premio_nome , tipo
+    FROM filme_nomeado INNER JOIN premio ON filme_nomeado.premio_tipo = premio.tipo
+      AND filme_nomeado.premio_edicao_ano = premio.edicao_ano
+      AND filme_nomeado.premio_edicao_nome_evento = premio.edicao_nome_evento
+  `
+
+  try {
+    const awardedMovies = await db.query(listQuery)
+
+    res.status(200).json(awardedMovies.rows)
+  } catch(err) {
+    console.log(err)
+    res.sendStatus(500)
+  }
+}
+
 module.exports = {
   createMovieAward,
+  listAllAwardedMovies,
+  listMostAwardedMovies,
 }
