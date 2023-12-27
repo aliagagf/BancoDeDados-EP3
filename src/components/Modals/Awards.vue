@@ -44,7 +44,11 @@
               <v-data-table
                 :items="data"
                 :headers="headers"
-              />
+              >
+                <template v-slot:item.premiado="{ item }">
+                    {{ item.premiado ? 'Premiado' : 'Não Premiado' }}
+                </template>
+              </v-data-table>
             </v-col>
           </v-row>
 				</v-container>
