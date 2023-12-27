@@ -87,8 +87,6 @@ export default {
       ...this.movies,
       ...this.actors,
     ]
-
-    console.log(this.data)
   },
   methods: {
     closeModal() {
