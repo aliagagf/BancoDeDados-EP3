@@ -109,7 +109,7 @@
                 color="#FAC95F"
                 @click="handleCreateEdition"
               >
-                Cadastrar Premiação
+                Cadastrar Edição
               </v-btn>
             </v-col>
           </v-row>

@@ -106,7 +106,7 @@
                 color="#FAC95F"
                 @click="handleCreatePersonAward"
               >
-                Cadastrar Premiação
+                Cadastrar Premiação para Pessoa
               </v-btn>
             </v-col>
           </v-row>

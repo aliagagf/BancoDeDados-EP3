@@ -92,7 +92,7 @@
                 color="#FAC95F"
                 @click="handleCreateMovieAward"
               >
-                Cadastrar Premiação
+                Cadastrar Premiação para Filme
               </v-btn>
             </v-col>
           </v-row>

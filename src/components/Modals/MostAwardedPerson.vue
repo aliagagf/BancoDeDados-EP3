@@ -12,7 +12,7 @@
 							cols="11"
 						>
 							<h2>
-                10 Artores (Atrizes) Filmes Mais Premiados
+                10 Atores (Atrizes) Filmes Mais Premiados
               </h2>
 						</v-col>
 
