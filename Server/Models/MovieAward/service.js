@@ -53,13 +53,16 @@ const listMostAwardedMovies = async (req, res) => {
   }
 }
 
-const listAllAwardedMovies = async (req, res) => {
+const listNominatedMoviesForAwards = async (req, res) => {
   const listQuery = `
     SELECT edicao_ano, edicao_nome_evento, filme_ano_producao, filme_titulo_original,
       premiado, nome AS premio_nome , tipo
     FROM filme_nomeado INNER JOIN premio ON filme_nomeado.premio_tipo = premio.tipo
       AND filme_nomeado.premio_edicao_ano = premio.edicao_ano
       AND filme_nomeado.premio_edicao_nome_evento = premio.edicao_nome_evento
+    WHERE premio.edicao_ano = '${req.query.edicao_ano}'
+      AND premio.edicao_nome_evento = '${req.query.edicao_nome_evento}'
+      AND premio.tipo = '${req.query.tipo}';
   `
 
   try {
@@ -74,6 +77,6 @@ const listAllAwardedMovies = async (req, res) => {
 
 module.exports = {
   createMovieAward,
-  listAllAwardedMovies,
+  listNominatedMoviesForAwards,
   listMostAwardedMovies,
 }

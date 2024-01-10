@@ -54,13 +54,16 @@ const listMostAwardedPerson = async (req, res) => {
   }
 }
 
-const listAllAwardedPersons = async (req, res) => {
+const listNominatedPersonsForAwards = async (req, res) => {
   const listQuery = `
     SELECT edicao_ano, edicao_nome_evento, filme_ano_producao, filme_titulo_original,
       ganhou AS premiado, nome AS premio_nome, pessoa_nome_art, tipo
     FROM eh_nomeado INNER JOIN premio ON eh_nomeado.premio_tipo = premio.tipo
-    AND eh_nomeado.premio_edicao_ano = premio.edicao_ano
-    AND eh_nomeado.premio_edicao_nome_evento = premio.edicao_nome_evento
+      AND eh_nomeado.premio_edicao_ano = premio.edicao_ano
+      AND eh_nomeado.premio_edicao_nome_evento = premio.edicao_nome_evento
+    WHERE premio.edicao_ano = '${req.query.edicao_ano}'
+      AND premio.edicao_nome_evento = '${req.query.edicao_nome_evento}'
+      AND premio.tipo = '${req.query.tipo}';
   `
 
   try {
@@ -75,6 +78,6 @@ const listAllAwardedPersons = async (req, res) => {
 
 module.exports = {
   createPersonAward,
-  listAllAwardedPersons,
+  listNominatedPersonsForAwards,
   listMostAwardedPerson,
 }

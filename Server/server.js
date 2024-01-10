@@ -19,12 +19,12 @@ const {
 } = require('./Models/Movie/service')
 const { 
   createMovieAward,
-  listAllAwardedMovies,
+  listNominatedMoviesForAwards,
   listMostAwardedMovies,
 } = require('./Models/MovieAward/service')
 const { 
   createPersonAward,
-  listAllAwardedPersons,
+  listNominatedPersonsForAwards,
   listMostAwardedPerson,
 } = require('./Models/PersonAward/service')
 
@@ -39,8 +39,8 @@ app.get('/evento', listEvent)
 app.get('/filme', listAllMovie)
 app.get('/filme/mais_premiados', listMostAwardedMovies)
 app.get('/filme/maior_arrecadacao', listMostGrossingMovies)
-app.get('/filme_premiados', listAllAwardedMovies)
-app.get('/pessoa_premiadas', listAllAwardedPersons)
+app.get('/filme_indicado_premio', listNominatedMoviesForAwards)
+app.get('/pessoa_indicada_premio', listNominatedPersonsForAwards)
 app.get('/pessoa', listAllPerson)
 app.get('/pessoa/atores', listActors)
 app.get('/pessoa/diretores', listDirectors)
