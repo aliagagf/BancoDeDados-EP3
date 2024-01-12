@@ -1,33 +1,16 @@
-# base
+# EP 3 - BD I
+
+Para rodar o EP, você deve ter pré-requisitos no seu sistema de Node e NPM e seguir os seguintes passos:
 
 ## Project setup
 
 ```
-# yarn
-yarn
+#instalar todas dependências
+npm i 
 
-# npm
-npm install
+#ter uma instância que roda a aplicação
+npm run dev 
 
-# pnpm
-pnpm install
-
-# pnpm
-bun install
-```
-
-### Lints and fixes files
-
-```
-# yarn
-yarn lint
-
-# npm
-npm run lint
-
-# pnpm
-pnpm lint
-
-# bun
-bun run lint
+#ter uma instância que roda o servidor
+npm run server
 ```
